@@ -4,6 +4,7 @@ import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
 import TodoList from '../todo-list';
 import ItemStatusFilter from '../item-status-filter';
+import ItemAddForm from '../item-add-form';
 
 import './app.sass';
 
@@ -16,6 +17,54 @@ export default class App extends Component {
     ]
   };
 
+  deleteItem = (id) => {
+    this.setState( ({todoData}) => {
+      const idx = todoData.findIndex((el) => el.id === id);
+      
+      const newTodoData = [
+        ...todoData.slice(0, idx), 
+        ...todoData.slice(idx + 1)
+      ];
+
+      return {
+        todoData: newTodoData
+      }
+    })
+  }
+
+  addItem = (text) => {
+    this.setState( ({todoData}) => {
+
+      let newId;
+
+      if (todoData.length > 0) {
+        const lastItem = todoData[todoData.length-1];
+        newId = lastItem.id + 1;
+      } else {
+        newId = 1;
+      }
+      const newItem = {label: text, important: false, id: newId};
+      console.log(newId);
+
+      const newTodoData = [ 
+        ...todoData,
+       newItem
+      ];
+
+      return {
+        todoData: newTodoData
+      }
+    })
+  }
+
+  onToggleImportant =(id) => {
+    console.log('important', id);
+  }
+
+  onToggleDone =(id) => {
+    console.log('done', id)
+  }
+
   render() {
     return (
       <div className="todo-app">
@@ -27,7 +76,10 @@ export default class App extends Component {
   
         <TodoList 
           todos={this.state.todoData}
-          onDeleted= { (id) => console.log('del', id) } />
+          onDeleted={ this.deleteItem }
+          onToggleImportant={ this.onToggleImportant }
+          onToggleDone={ this.onToggleDone } />
+        <ItemAddForm onAdd={ this.addItem } />
       </div>
     );
   }
