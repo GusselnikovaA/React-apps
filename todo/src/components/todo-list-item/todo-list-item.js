@@ -1,42 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './todo-list-item.sass';
 
-const TodoListItem = () => {
-  const { label, onDeleted, 
-          onToggleImportant, 
-          onToggleDone,
-          important, done } = this.props;
+export default class TodoListItem extends Component {
 
-  let classNames = 'todo-list-item';
-  if (done) {
-    classNames += ' done';
-  }
+  render() {
+    const { label, onDeleted, 
+      onToggleImportant, 
+      onToggleDone,
+      important, done } = this.props;
 
-  if (important) {
-    classNames += ' important';
-  }
+    let classNames = 'todo-list-item';
 
-  return (
-    <span className={ classNames }>
-      <span className='todo-list-item-label'
-            onClick={ onToggleDone }>
-        {label}
-      </span>
+    if (done) {
+      classNames += ' done';
+    };
 
-      <button type='button'
-              className="btn btn-outline-success btn-sm float-right"
-              onClick={ onToggleImportant }>
-        <i className="fa fa-exclamation" />
-      </button>
+    if (important) {
+      classNames += ' important';
+    };
 
-      <button type="button"
-              className="btn btn-outline-danger btn-sm float-right"
-              onClick={ onDeleted }>
-          <i className="fa fa-trash-o" />
+    return (
+      <span className={ classNames }>
+        <span className='todo-list-item-label'
+              onClick={ onToggleDone }>
+          {label}
+        </span>
+
+        <button type='button'
+                className="btn btn-outline-success btn-sm float-right"
+                onClick={ onToggleImportant }>
+          <i className="fa fa-exclamation" />
         </button>
-    </span>
-  );
-};
 
-export default TodoListItem;
+        <button type="button"
+                className="btn btn-outline-danger btn-sm float-right"
+                onClick={ onDeleted }>
+            <i className="fa fa-trash-o" />
+          </button>
+      </span>
+    );
+  };
+};
